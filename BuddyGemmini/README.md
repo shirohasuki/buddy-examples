@@ -55,13 +55,13 @@ $ source ./sourceme-manager.sh --skip-ssh-setup
 
 4. In the `firesim/deploy/` path, there are four files that configure key information for FireSim's build workload, bitstream, runtime, etc. Please check the following configurations:
 
-- config_build_recipes.yaml: Configures the Gemmini configuration, such as `firesim_custom_gemmini_rocket_singlecore_no_nic`
-- config_build.yaml: Under `builds_to_run`, select the Gemmini configuration, such as `firesim_custom_gemmini_rocket_singlecore_no_nic`
-- config_hwdb.yaml: For `bitstream_tar`, configure the absolute path where your generated Gemmini bitstream is stored
-- config_runtime.yaml: This file is for building the runtime. Please modify the `workload_name` to `gemmini-tests-interactive.json`. We will execute this interactive configuration after starting the simulation later.
+- `config_build_recipes.yaml`: Configures the Gemmini configuration, such as `firesim_custom_gemmini_rocket_singlecore_no_nic`
+- `config_build.yaml`: Under `builds_to_run`, select the Gemmini configuration, such as `firesim_custom_gemmini_rocket_singlecore_no_nic`
+- `config_hwdb.yaml`: For `bitstream_tar`, configure the absolute path where your generated Gemmini bitstream is stored
+- `config_runtime.yaml`: This file is for building the runtime. Please modify the `workload_name` to `gemmini-tests-interactive.json`. We will execute this interactive configuration after starting the simulation later.
 
 
-5. Build and deploy simulation infrastructure to the Run Farm Machines. Each time you change your workload content, please re-execute `step 2` to `step 4`.
+5. Build and deploy simulation infrastructure to the Run Farm Machines. Each time you change your workload content, please re-execute `step 2` to `step 5`.
 
 ```
 $ firesim infrasetup
