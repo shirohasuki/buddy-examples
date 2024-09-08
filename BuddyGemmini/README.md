@@ -35,22 +35,22 @@ $ make buddy-gemmini-lenet-run
 ## Deployment to FireSim
 1. Copy the executable files (located in the `BuddyGemmini/build/`) and the required data files to Gemmini's software path
 ```
-cd chipyard # go to your chipyard root directory 
-mkdir ./generators/gemmini/software/overlay/root/BuddyGemmini/
-cp ${BUDDYGEMMINI_EXAMPLE_PATH}/build/buddy-gemmini-lenet-run  ./generators/gemmini/software/overlay/root/BuddyGemmini/
-cp ${BUDDYGEMMINI_EXAMPLE_PATH}/arg0.data  ./generators/gemmini/software/overlay/root/BuddyGemmini/
-cp -r ${BUDDYGEMMINI_EXAMPLE_PATH}/images/  ./generators/gemmini/software/overlay/root/BuddyGemmini/
+$ cd chipyard # go to your chipyard root directory 
+$ mkdir ./generators/gemmini/software/overlay/root/BuddyGemmini/
+$ cp ${BUDDYGEMMINI_EXAMPLE_PATH}/build/buddy-gemmini-lenet-run  ./generators/gemmini/software/overlay/root/BuddyGemmini/
+$ cp ${BUDDYGEMMINI_EXAMPLE_PATH}/arg0.data  ./generators/gemmini/software/overlay/root/BuddyGemmini/
+$ cp -r ${BUDDYGEMMINI_EXAMPLE_PATH}/images/  ./generators/gemmini/software/overlay/root/BuddyGemmini/
 ```
 2. Build software for the target platform
 ```
-cd chipyard
-./sims/firesim/sw/firesim-software/marshal -v build ./generators/gemmini/software/gemmini-tests-interactive.json && ./sims/firesim/sw/firesim-software/marshal -v install ./generators/gemmini/software/gemmini-tests-interactive.json
+$ cd chipyard
+$ ./sims/firesim/sw/firesim-software/marshal -v build ./generators/gemmini/software/ gemmini-tests-interactive.json && ./sims/firesim/sw/firesim-software/marshal -v install ./generators/gemmini/software/gemmini-tests-interactive.json
 ```
 
 3. Activate your Firesim environment.
 ```
-cd chipyard/sim/firesim 
-source ./sourceme-manager.sh --skip-ssh-setup
+$ cd chipyard/sim/firesim 
+$ source ./sourceme-manager.sh --skip-ssh-setup
 ```
 
 4. In the `firesim/deploy/` path, there are four files that configure key information for FireSim's build workload, bitstream, runtime, etc. Please check the following configurations:
@@ -64,29 +64,29 @@ source ./sourceme-manager.sh --skip-ssh-setup
 5. Build and deploy simulation infrastructure to the Run Farm Machines. Each time you change your workload content, please re-execute `step 2` to `step 4`.
 
 ```
-firesim infrasetup
+$ firesim infrasetup
 ```
 
 6. Start simulation on Run Farm Machines. After executing the command below, the terminal will display a background monitor of the simulation running.
 
 ```
-firesim runworkload
+$ firesim runworkload
 ```
 
 7. SSH connect to `BUILD_FARM_IP`, open a new terminal connection to the screen created by Run Farm Machines (please refer to the FireSim documentation to confirm you can correctly connect to Run Farm Machines).
    
 ```
-ssh BUILD_FARM_IP
-screen -r fsim0
+$ ssh BUILD_FARM_IP
+$ screen -r fsim0
 ```
 
 ## Final step!
 Now, you can login to the system! The username is root and there is no password. The steps described here are for manual execution. You can also refer to the writing of `gemmini-tests.json` and `overlay/root/run-tests.sh` to write your own automated execution script. This will change the manual operations after firesim runworkload to automatic execution. The corresponding log files will be recorded in the `/firesim/deploy/results-workload` folder.
 
 ```
-cd ./BuddyGemmini
-export BUDDYGEMMINI_EXAMPLE_PATH=$PWD
-./buddy-gemmini-lenet-run
+$ cd ./BuddyGemmini
+$ export BUDDYGEMMINI_EXAMPLE_PATH=$PWD
+$ ./buddy-gemmini-lenet-run
 ```
 
 If all steps go well, you will see the output below. Good luck.
