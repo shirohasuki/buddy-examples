@@ -16,6 +16,7 @@
 
 #include <buddy/Core/Container.h>
 #include <buddy/DIP/ImgContainer.h>
+#include "include/gemmini_testutils.h"
 #include <chrono>
 #include <cmath>
 #include <cstdlib>
@@ -110,12 +111,16 @@ int main() {
   MemRef<float, 1> paramsContainer({ParamsSize});
   loadParameters(paramsDir, paramsContainer);
 
+  unsigned long start = read_cycles();
   // Call the forward function of the model.
   _mlir_ciface_forward(&output, &paramsContainer, &input);
 
   // Apply softmax to the output logits to get probabilities.
   auto out = output.getData();
   softmax(out, 10);
+  unsigned long end = read_cycles();
+  // gemmini profiling
+  std::cout << "Inference Cycles taken: " << end-start << std::endl;
 
   // Find the classification and print the result.
   float maxVal = 0;
@@ -127,6 +132,7 @@ int main() {
     }
   }
 
+  std::cout << "Results: " << std::endl;
   std::cout << "Classification: " << maxIdx << std::endl;
   std::cout << "Probability: " << maxVal << std::endl;
 

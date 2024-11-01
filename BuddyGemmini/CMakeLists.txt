@@ -4,11 +4,8 @@ set(RISCV_GNU_TOOLCHAIN ${BUDDY_MLIR_DIR}/build/thirdparty/riscv-gnu-toolchain)
 set(CMAKE_CXX_COMPILER  ${RISCV_GNU_TOOLCHAIN}/bin/riscv64-unknown-linux-gnu-g++)
 
 set(BUDDY_GEMMINI_DIR ${BUDDY_EXAMPLES_DIR}/BuddyGemmini)
-# set(BUDDY_GEMMINI_SRC_DIR ${BUDDY_GEMMINI_DIR}/src)
-# set(BUDDY_GEMMINI_BUILD_DIR ${BUDDY_GEMMINI_DIR}/build)
-# set(BUDDY_GEMMINI_MLIR_DIR ${BUDDY_GEMMINI_BUILD_DIR}/mlir_dir)
-# set(BUDDY_GEMMINI_OBJ_DIR ${BUDDY_GEMMINI_BUILD_DIR}/obj_dir)
 set(INTERFACE_DIR ${BUDDY_MLIR_DIR}/frontend/Interfaces/)
+set(INCLUDE_DIR ${BUDDY_GEMMINI_DIR}/include/)
 
 
 add_custom_command(
@@ -81,5 +78,5 @@ set_target_properties(GemminiLENET PROPERTIES LINKER_LANGUAGE CXX)
 
 add_executable(buddy-gemmini-lenet-run buddy-lenet-main.cpp)
 add_dependencies(buddy-gemmini-lenet-run GemminiLENET)
-target_include_directories(buddy-gemmini-lenet-run PRIVATE ${INTERFACE_DIR})
+target_include_directories(buddy-gemmini-lenet-run PRIVATE ${INTERFACE_DIR} ${INCLUDE_DIR})
 target_link_libraries(buddy-gemmini-lenet-run -static GemminiLENET)

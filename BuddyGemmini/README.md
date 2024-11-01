@@ -3,7 +3,7 @@
 ## Overview
 This guide provides an example of end-to-end deployment of a DNN (LeNet) inference to a DSA backend (Gemmini) using the Buddy Compiler. 
 
-We use FireSim, a platform for FPGA-accelerated cycle-accurate simulation, to run end-to-end DNN workloads that would take too long to run on Verilator/VCS. FireSim also allows users to check that their Gemmini hardware/software will work when running in a Linux environment. The FireSim used in this guide is installed locally on a Xilinx Alveo U280.
+We use FireSim, a platform for FPGA-accelerated cycle-accurate simulation, to run end-to-end DNN workloads that would take too long to run on Verilator/VCS. FireSim also allows users to check that their Gemmini hardware/software will work when running in a Linux environment. The FireSim used in this guide is installed locally on a Xilinx VCU118.
 
 ## Preparation
 Before proceed any further make sure that you installed dependencies below
