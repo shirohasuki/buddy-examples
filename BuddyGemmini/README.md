@@ -44,7 +44,7 @@ $ cp -r ${BUDDYGEMMINI_EXAMPLE_PATH}/images/  ./generators/gemmini/software/over
 2. Build software for the target platform
 ```
 $ cd chipyard
-$ ./sims/firesim/sw/firesim-software/marshal -v build ./generators/gemmini/software/ gemmini-tests-interactive.json && ./sims/firesim/sw/firesim-software/marshal -v install ./generators/gemmini/software/gemmini-tests-interactive.json
+$ ./sims/firesim/sw/firesim-software/marshal -v build ./generators/gemmini/software/gemmini-tests-interactive.json && ./sims/firesim/sw/firesim-software/marshal -v install ./generators/gemmini/software/gemmini-tests-interactive.json
 ```
 
 3. Activate your Firesim environment.
