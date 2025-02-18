@@ -10,7 +10,8 @@ set(INCLUDE_DIR ${BUDDY_GEMMINI_DIR}/include/)
 
 add_custom_command(
   OUTPUT  forward.mlir subgraph0.mlir arg0.data
-  COMMAND python3 ${BUDDY_GEMMINI_DIR}/buddy-lenet-import.py
+  COMMAND export BUDDYGEMMINI_EXAMPLE_PATH=${BUDDY_GEMMINI_DIR} &&
+          python3 ${BUDDY_GEMMINI_DIR}/buddy-lenet-import.py
   DEPENDS buddy-lenet-import.py
   COMMENT "Generating forward.mlir, subgraph0.mlir and parameter files"
 )

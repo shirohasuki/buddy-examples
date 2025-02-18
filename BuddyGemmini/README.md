@@ -15,16 +15,8 @@ Before proceed any further make sure that you installed dependencies below
 
 ## Cross-compilation
 1. Activate your python environment.
-   
-2. Set the environment variable.
-    
-Make sure you are in the BuddyGemmini directory. 
 
-```
-export BUDDYGEMMINI_EXAMPLE_PATH=$PWD
-```
-
-3. Build buddy-gemmini-lenet-run
+2. Build buddy-gemmini-lenet-run
    
 ```
 $ mkdir build && cd build
