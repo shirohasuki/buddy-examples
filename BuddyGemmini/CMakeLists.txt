@@ -18,7 +18,7 @@ add_custom_command(
 add_custom_command(
   OUTPUT  forward.o
   COMMAND ${BUDDY_BINARY_DIR}/buddy-opt ${BUDDY_GEMMINI_DIR}/forward.mlir 
-            -pass-pipeline "builtin.module(func.func(tosa-to-linalg-named, tosa-to-linalg, tosa-to-tensor, tosa-to-arith), empty-tensor-to-alloc-tensor, convert-elementwise-to-linalg, arith-bufferize, func.func(linalg-bufferize, tensor-bufferize), func-bufferize)" |
+            -pass-pipeline "builtin.module(func.func(tosa-to-linalg-named, tosa-to-linalg, tosa-to-tensor, tosa-to-arith))" |
             ${BUDDY_BINARY_DIR}/buddy-opt
             -buffer-deallocation-simplification
             -convert-linalg-to-loops
@@ -27,7 +27,6 @@ add_custom_command(
             -convert-math-to-llvm
             -convert-math-to-libm
             -convert-scf-to-cf
-            -lower-gemmini
             -convert-arith-to-llvm
             -expand-strided-metadata
             -finalize-memref-to-llvm
@@ -42,33 +41,62 @@ add_custom_command(
 add_custom_command(
   OUTPUT  subgraph0.o
   COMMAND ${BUDDY_BINARY_DIR}/buddy-opt ${BUDDY_GEMMINI_DIR}/subgraph0.mlir 
+            -pass-pipeline "builtin.module(func.func(tosa-to-linalg-named, tosa-to-linalg, tosa-to-tensor, tosa-to-arith))" 
+            > subgraph0_linalg.mlir
+  COMMAND ${BUDDY_BINARY_DIR}/buddy-opt ${BUDDY_GEMMINI_DIR}/subgraph0.mlir 
             -pass-pipeline "builtin.module(func.func(tosa-to-linalg-named, tosa-to-linalg, tosa-to-tensor, tosa-to-arith))" |
           ${BUDDY_BINARY_DIR}/buddy-opt
             -eliminate-empty-tensors
             -convert-tensor-to-linalg
             -linalg-bufferize
             -batchmatmul-optimize
-            -convert-linalg-to-affine-loops
-            -lower-affine
-            -func-bufferize-dynamic-offset
-            -arith-bufferize
+            -convert-linalg-to-gemmini
+          > subgraph0_loops.mlir
+  COMMAND ${BUDDY_BINARY_DIR}/buddy-opt ${BUDDY_GEMMINI_DIR}/subgraph0.mlir 
+            -pass-pipeline "builtin.module(func.func(tosa-to-linalg-named, tosa-to-linalg, tosa-to-tensor, tosa-to-arith))" |
+          ${BUDDY_BINARY_DIR}/buddy-opt
+            -eliminate-empty-tensors
+            -linalg-bufferize
             -tensor-bufferize
-            -buffer-deallocation
-            -finalizing-bufferize
-            -convert-vector-to-scf
+            -func-bufferize
+            -convert-linalg-to-gemmini
             -expand-strided-metadata
-            -convert-vector-to-llvm
-            -convert-arith-to-llvm
-            -finalize-memref-to-llvm
+            -convert-linalg-to-loops
             -convert-scf-to-cf
             -llvm-request-c-wrappers
             -lower-gemmini 
+            -arith-bufferize
+            -buffer-deallocation
+            -finalizing-bufferize
             -convert-arith-to-llvm
             -convert-func-to-llvm
+            -finalize-memref-to-llvm
             -reconcile-unrealized-casts | 
-          ${BUDDY_BINARY_DIR}/buddy-translate --buddy-to-llvmir |
-          ${BUDDY_BINARY_DIR}/buddy-llc -filetype=obj -mtriple=riscv64 -O0 -mattr=+buddyext,+D -float-abi=hard -o subgraph0.o
-          DEPENDS subgraph0.mlir
+          ${BUDDY_BINARY_DIR}/buddy-translate --buddy-to-llvmir
+          > subgraph0.ll
+    COMMAND ${BUDDY_BINARY_DIR}/buddy-opt ${BUDDY_GEMMINI_DIR}/subgraph0.mlir 
+          -pass-pipeline "builtin.module(func.func(tosa-to-linalg-named, tosa-to-linalg, tosa-to-tensor, tosa-to-arith))" |
+        ${BUDDY_BINARY_DIR}/buddy-opt
+          -eliminate-empty-tensors
+          -linalg-bufferize
+          -tensor-bufferize
+          -func-bufferize
+          -convert-linalg-to-gemmini
+          -expand-strided-metadata
+          -convert-linalg-to-loops
+          -convert-scf-to-cf
+          -llvm-request-c-wrappers
+          -lower-gemmini 
+          -arith-bufferize
+          -buffer-deallocation
+          -finalizing-bufferize
+          -convert-arith-to-llvm
+          -convert-func-to-llvm
+          -finalize-memref-to-llvm
+          -reconcile-unrealized-casts | 
+        ${BUDDY_BINARY_DIR}/buddy-translate --buddy-to-llvmir |
+        ${BUDDY_BINARY_DIR}/buddy-llc -filetype=obj -mtriple=riscv64 -O0 -mattr=+buddyext,+D -float-abi=hard -o subgraph0.o
+        DEPENDS subgraph0.mlir
   COMMENT "Building subgraph0.o"
   VERBATIM)
 

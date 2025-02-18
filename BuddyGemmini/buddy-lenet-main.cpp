@@ -114,11 +114,11 @@ int main() {
   unsigned long start = read_cycles();
   // Call the forward function of the model.
   _mlir_ciface_forward(&output, &paramsContainer, &input);
+  unsigned long end = read_cycles();
 
   // Apply softmax to the output logits to get probabilities.
   auto out = output.getData();
   softmax(out, 10);
-  unsigned long end = read_cycles();
   // gemmini profiling
   std::cout << "Inference Cycles taken: " << end-start << std::endl;
 
