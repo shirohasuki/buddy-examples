@@ -9,7 +9,7 @@ We use FireSim, a platform for FPGA-accelerated cycle-accurate simulation, to ru
 Before proceed any further make sure that you installed dependencies below
 1. Installation of [Buddy-mlir basic environment and cross-compilation toolchain](https://github.com/buddy-compiler/buddy-mlir/blob/main/docs/RVVEnvironment.md)
    
-2. Environment installation for [Chipyard](https://chipyard.readthedocs.io/en/1.11.0/) and [Firesim](https://docs.fires.im/en/1.18.0/). The environment for this guide is based on a local acceleration card, the Xilinx Alveo U280, with configuration versions Chipyard 1.11.0 and FireSim 1.18.0. We recommend installing these versions (install firesim as a submodule of chipyard) and completing all the content in the FireSim documentation's [Getting Started Guide](https://docs.fires.im/en/1.18.0/Getting-Started-Guides/On-Premises-FPGA-Getting-Started/Repo-Setup/Xilinx-Alveo-U280.html).
+2. Environment installation for [Chipyard](https://chipyard.readthedocs.io/en/1.11.0/) and [Firesim](https://docs.fires.im/en/1.18.0/). The environment for this guide is based on a local acceleration card, the Xilinx Alveo VCU118, with configuration versions Chipyard 1.11.0 and FireSim 1.18.0. We recommend installing these versions (install firesim as a submodule of chipyard) and completing all the content in the FireSim documentation's [Getting Started Guide](https://docs.fires.im/en/1.18.0/Getting-Started-Guides/On-Premises-FPGA-Getting-Started/Repo-Setup/Xilinx-Alveo-U280.html).
    
 3. Complete the build of [gemmini](https://github.com/ucb-bar/gemmini), and building a complete bitstream file based on the default Gemmini configuration using the firesim buildbitstream command.
 
